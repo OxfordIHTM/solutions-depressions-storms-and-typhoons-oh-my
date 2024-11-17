@@ -1,12 +1,6 @@
-# Tropical Depressions, Storms, and Typhoons Oh My!
+# Tropical Depressions, Storms, and Typhoons Oh My! - Solutions
 
-This is a template repository for exercises in the [Open and Reproducible Science in R](https://oxford-ihtm.io/teaching) module of the [MSc in International Health and Tropical Medicine](https://www.tropicalmedicine.ox.ac.uk/study-with-us/msc-ihtm). This template repository can be used within a GitHub Classroom environment.
-
-## Retrieving the assignment locally to your computer via RStudio
-
-To be able to work on this assignment, you will need to get a copy of the project/repository into your local computer using RStudio.
-
-The following tutorial shows the steps on how to do this - https://oxford-ihtm.io/ihtm-handbook/clone-repository-rstudio.html.
+This is a solutions repository for the exercise on **Tropical Depression, Storms, and Typhoons Oh My!** in the [Open and Reproducible Science in R](https://oxford-ihtm.io/teaching) module of the [MSc in International Health and Tropical Medicine](https://www.tropicalmedicine.ox.ac.uk/study-with-us/msc-ihtm).
 
 ## Instructions for the assignment
 
@@ -105,3 +99,9 @@ Using R, can you show the Q-Q plot for:
 * the `pressure` variable
 
 * the `speed` variable
+
+## Solution
+
+A solutions script named `cyclones.R` is found in this repository. The script provides various possible solutions for each of the tasks above.
+
+The solutions can also be viewed as an HTML document that shows the code solutions alongside text that provides step-by-step explanation of what the solution is doing. The HTML document can be read here.
