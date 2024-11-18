@@ -1071,7 +1071,7 @@ A quantile-quantile plot of cyclones speed can be created as follows:
 #| eval: false
 
 qqnorm(
-  cyclones$speed), # <1>
+  cyclones$speed, # <1>
   main = "Quantile-Quantile plot of cyclone speed"
 )
 qqline(cyclones$speed) # <2>
