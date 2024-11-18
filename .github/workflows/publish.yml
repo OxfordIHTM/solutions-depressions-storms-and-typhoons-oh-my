@@ -36,8 +36,12 @@ jobs:
           renv::restore()
         shell: Rscript {0}
         
-      - name: Render and publish document
+      - name: Render document
         run: |
-          quarto publish gh-pages cyclones.qmd --no-prompt --no-browser
-
-          
+          quarto::quarto_render("cyclones.qmd")
+        shell: Rscript {0}
+      
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
