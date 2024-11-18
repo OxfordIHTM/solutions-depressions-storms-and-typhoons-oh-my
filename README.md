@@ -1,12 +1,22 @@
 # Tropical Depressions, Storms, and Typhoons Oh My! - Solutions
 
+![License for code](https://img.shields.io/badge/license_for_code-GPL3.0-blue)
+![License for text](https://img.shields.io/badge/license_for_writing-CC_BY_4.0-blue)
+[![Quarto Publish](https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/actions/workflows/publish.yml/badge.svg)](https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/actions/workflows/publish.yml)
+
+
+
 This is a solutions repository for the exercise on **Tropical Depression, Storms, and Typhoons Oh My!** in the [Open and Reproducible Science in R](https://oxford-ihtm.io/teaching) module of the [MSc in International Health and Tropical Medicine](https://www.tropicalmedicine.ox.ac.uk/study-with-us/msc-ihtm).
+
+<br/>
 
 ## Instructions for the assignment
 
 The following tasks have been setup to help students get familiar with the basics of R and performing basic operations and functions in R.
 
 The students are expected to go through the tasks and appropriately write R code/script to fulfill the tasks and/or to answer the question/s being asked within the tasks. R code/script should be written inside a single R file named `cyclones.R` and saved in the project’s root directory.
+
+<br/>
 
 ## The dataset
 
@@ -27,6 +37,8 @@ start              | Date and time at which cyclone enters Philippine waters
 end                | Date and time at which cyclone leaves Philippine waters
 pressure           | Maximum central pressure in hPa
 speed              | Maximum sustained wind speed in km/h
+
+<br/>
 
 ## Task 1: Reading data into R
 
@@ -50,6 +62,8 @@ To find out more about using specific functions or to get help with the syntax, 
 ?read.csv
 ```
 
+<br/>
+
 ## Task 2: Describing the data structure
 Being able to understand the data structure of a dataset helps us make good decisions on how to work with data.
 
@@ -67,6 +81,7 @@ Using R, can you describe the structure of the data? Specifically, can you descr
 
 * The values of variables in the data
 
+<br/>
 
 ## Task 3: Summarise and describe the dataset graphically
 
@@ -100,6 +115,7 @@ Using R, can you show the Q-Q plot for:
 
 * the `speed` variable
 
+<br/>
 
 ## Pop Quiz
 
@@ -120,11 +136,20 @@ What is the name of the cyclone with the lowest pressure in 2020?
 ### Question 4
 How many cyclones have a speed of less than 100 kph and a pressure greater than 1000 hPa?
 
+<br/>
 
-## Solution
+## Solutions
 
 A solutions script named `cyclones.R` is found in this repository. The script provides various possible solutions for each of the tasks above.
 
 A solutions script named `pop_quiz.R` is found in this repository. The script provided various possible solutions for the pop quiz given on the 12th of November 2024.
 
 The solutions can also be viewed as an HTML document that shows the code solutions alongside text that provides step-by-step explanation of what the solution is doing. The HTML document can be read here.
+
+<br/>
+
+## License
+
+All of the written material is made available under the Creative
+Commons - Attribution - NonCommercial 4.0 International license (CC-BY-NC-4.0),
+while any code is made available under the GNU General Public License Version 3.0 license (GPL-3.0).
