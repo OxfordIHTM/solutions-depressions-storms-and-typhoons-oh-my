@@ -1,9 +1,11 @@
 # Tropical Depressions, Storms, and Typhoons Oh My! - Solutions
 
+<!-- badges: start -->
 ![License for code](https://img.shields.io/badge/license_for_code-GPL3.0-blue)
 ![License for text](https://img.shields.io/badge/license_for_writing-CC_BY_4.0-blue)
 [![Quarto Publish](https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/actions/workflows/publish.yml/badge.svg)](https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/actions/workflows/publish.yml)
-
+[![DOI](https://zenodo.org/badge/889816501.svg)](https://zenodo.org/badge/latestdoi/889816501)
+<!-- badges: end -->
 
 
 This is a solutions repository for the exercise on **Tropical Depression, Storms, and Typhoons Oh My!** in the [Open and Reproducible Science in R](https://oxford-ihtm.io/teaching) module of the [MSc in International Health and Tropical Medicine](https://www.tropicalmedicine.ox.ac.uk/study-with-us/msc-ihtm).
