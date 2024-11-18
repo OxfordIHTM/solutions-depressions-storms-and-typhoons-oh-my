@@ -23,9 +23,6 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           tinytex: true
-  
-      # - name: Install tinytex
-      #   run: quarto install tinytex
 
       - name: Install packages from renv.lock (with cache)
         if: ${{ !env.ACT }}  
