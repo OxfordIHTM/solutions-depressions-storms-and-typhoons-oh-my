@@ -39,9 +39,9 @@ jobs:
           renv::restore()
         shell: Rscript {0}
         
-      - name: Run workflow
+      - name: Render document
         run: |
-          targets::tar_make(ferc_scoping_review_report)
+          quarto::quarto_render("cyclones.qmd")
         shell: Rscript {0}
 
       - name: Deploy 🚀
