@@ -199,13 +199,15 @@ par(mfcol = c(1, 2))                           ## split plotting window to two
 hist(
   cyclones$pressure[cyclones$speed < 100],
   main = NULL,
-  xlab = "Speed < 100 kph"
+  xlab = "Speed < 100 kph",
+  ylim = c(0, 30)
 )
 
 hist(
   cyclones$pressure[cyclones$speed >= 100],
   main = NULL,
-  xlab = "Speed >= 100 kph"
+  xlab = "Speed >= 100 kph",
+  ylim = c(0, 30)
 )
 
 par(mfcol = c(1, 1))                           ## Return plotting window back to 1 x 1 

@@ -100,8 +100,31 @@ Using R, can you show the Q-Q plot for:
 
 * the `speed` variable
 
+
+## Pop Quiz
+
+A pop quiz was given to the students on the 12th of November 2024 as part of this exercise. The questions to the pop quiz were:
+
+### Question 1
+How many cyclones entered the Philippines in 2017?
+
+
+### Question 2
+What is the mean cyclone speed of the cyclones that hit the Philippines in 2019?
+
+
+### Question 3
+What is the name of the cyclone with the lowest pressure in 2020?
+
+
+### Question 4
+How many cyclones have a speed of less than 100 kph and a pressure greater than 1000 hPa?
+
+
 ## Solution
 
 A solutions script named `cyclones.R` is found in this repository. The script provides various possible solutions for each of the tasks above.
+
+A solutions script named `pop_quiz.R` is found in this repository. The script provided various possible solutions for the pop quiz given on the 12th of November 2024.
 
 The solutions can also be viewed as an HTML document that shows the code solutions alongside text that provides step-by-step explanation of what the solution is doing. The HTML document can be read here.

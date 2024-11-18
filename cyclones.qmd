@@ -1,0 +1,1097 @@
+---
+title: Tropical Depressions, Storms, and Typhoons Oh My!
+subtitle: Solutions
+author:
+  - name: Ernest Guevarra
+    orcid: 0000-0002-4887-4415
+    email: ernest.guevarra@ndm.ox.ac.uk
+    affiliation: 
+      - name: Centre for Tropical Medicine and Global Health, Nuffield Department of Medicine, University of Oxford
+        city: Oxford
+date: last-modified
+date-format: "DD MMMM YYYY"
+---
+
+This document provides detailed solutions to the tasks set in the **Tropical Depressions, Storms, and Typhoons Oh My!** exercise set of the [**Open and Reproducible Science in R**](https://oxford-ihtm.io/teaching/) module of the [**MSc in International Health and Tropical Medicine**](https://www.tropicalmedicine.ox.ac.uk/study-with-us/msc-ihtm).
+
+# Introduction to the exercise {#sec-introduction}
+
+## Instructions for the assignment {#sec-instructions}
+
+The following tasks have been setup to help students get familiar with the basics of R and performing basic operations and functions in R.
+
+The students are expected to go through the tasks and appropriately write R code/script to fulfill the tasks and/or to answer the question/s being asked within the tasks. R code/script should be written inside a single R file named `cyclones.R` and saved in the project’s root directory.
+
+## The dataset {#sec-dataset}
+
+Oceans and seas significantly impact continental weather, with evaporation from the sea surface driving cloud formation and precipitation. Tropical cyclones, warm-core low-pressure systems, form over warm oceans where temperatures exceed 26°C, precipitated by the release of latent heat from condensation. These cyclones, known by various names depending on the region, have organised circulations and develop primarily in tropical and subtropical waters, except in regions with cooler sea surface temperatures and high vertical wind shears. They reach peak intensity over warm tropical waters and weaken upon landfall, often causing extensive damage before dissipating.
+
+The Philippines frequently experiences tropical cyclones because of its geographical position. These cyclones typically bring heavy rainfall, leading to widespread flooding, as well as strong winds that cause significant damage to human life, crops, and property. Data on cyclones are collected and curated by the Philippine Atmospheric, Geophysical, and Astronomical Services Administration (PAGASA).
+
+A dataset in comma-separated value (CSV) format called `cyclones.csv` can be found inside the `data` folder of this repository. This dataset contains records of every cyclone that entered the Philippine area of responsibility from 2017 to 2021. The dataset has the following variables/fields (see @tbl-cyclones-metadata):
+
+```{r}
+#| label: tbl-cyclones-metadata
+#| tbl-cap: Cyclones dataset field names and description
+#| html-table-processing: none
+#| echo: false
+
+variable <- c("year", "category_code", "category_name", "name", "rsmc_name", "start", "end", "pressure", "speed")
+
+description <- c(
+  "Year",
+  "Tropical cyclone category code",
+  "Tropical cyclone category name",
+  "Name given to the tropical cyclone by Philippine authorities",
+  "Name given to the tropical cyclone by Philippine authorities",
+  "Date and time at which cyclone enters Philippine waters",
+  "Date and time at which cyclone leaves Philippine waters",
+  "Maximum central pressure in hPa",
+  "Maximum sustained wind speed in km/h"
+)
+
+data.frame(variable, description) |>
+  knitr::kable(col.names = c("Variable/Field", "Description")) |>
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "bordered"),
+    full_width = FALSE
+  )
+```
+
+# Task 1: Read the cyclones dataset into R {#sec-read-cyclones-data}
+
+There are many ways to read a dataset into R and the method used will depend on the file type/format of the dataset. The dataset for this exercise is a **comma-separated value** or **CSV** file type/format. A CSV file is a text file that stores data in a table structure, with each value separated by a comma.
+
+The `read.table()` functions are the base R functions that can be used to read CSV files into R. Of the `read.table()` family of functions, the two functions that are most relevant to reading the cyclones CSV file are the `read.table()` and the `read.csv()` function.
+
+## Using the `read.table()` function {#sec-read-table}
+
+The `read.table()` function can be used to read the cyclones CSV file as follows:
+
+```{r}
+#| label: read-syntax1
+#| eval: false
+
+read.table(
+  file = "data/cyclones.csv",
+  header = TRUE,
+  sep = ","
+)
+```
+
+which results in (showing first 10 rows of data):
+
+```{r}
+#| label: read-syntax-output1
+#| echo: false
+
+read.table(
+  file = "data/cyclones.csv",
+  header = TRUE,
+  sep = ","
+) |>
+  head(10)
+```
+
+In the `read.table()` function, we used 3 arguments that ensures that the function is able to read a CSV file properly.
+
+```{r}
+#| label: read-syntax2
+#| eval: false
+
+read.table(
+  file = "data/cyclones.csv", # <1>
+  header = TRUE,              # <2>
+  sep = ","                   # <3>
+)
+```
+
+1. The `file` argument should be supplied with the file path to the file which the data are to be read from. For this exercise, the dataset is found in the **data** folder within our project so we specify "data/cyclones.csv" to the `file` argument. The specification for this argument should be enclosed in `""`.
+
+2. The `header` argument requires a logical value (`TRUE` or `FALSE`). The value supplied to this argument should indicate whether the file to be read contains the names of the variables as its first line. Since the `cyclones.csv` files had variable names as its first line, we set this to `TRUE`.
+
+3. The `sep` argument should be supplied with the field separator character which is the character used to separate every value in each line of the file. Since the cyclones dataset is a CSV file, the `sep` argument should be set as `","`.
+
+When the `read.table()` function is used to read a CSV file, the three arguments described above should always be specified in order for R to read the CSV file properly.
+
+## Using the `read.csv()` function {#sec-read-csv}
+
+The `read.csv()` function is a member of the `read.table()` family of functions. The `read.csv()` function is a specialised function built on the `read.table()` function. By default, the `read.csv()` function sets `header` argument to `TRUE` and the `sep` argument to `","`. Hence, we use the `read.csv()` function as follows:
+
+```{r}
+#| label: read-syntax3
+#| eval: false
+
+read.csv(file = "data/cyclones.csv")
+```
+
+which returns the following output (showing first 10 rows of data):
+
+```{r}
+#| label: read-syntax-output2
+#| echo: false
+
+read.csv(file = "data/cyclones.csv") |>
+  head(10)
+```
+
+The output of using the `read.csv()` function is exactly the same as the `read.table()` function.
+
+In general, when dealing with CSV files, the `read.csv()` function is the most convenient and straightforward function to use.
+
+## Creating a `cyclones` object {#sec-cyclones-object}
+
+So that we can use the cyclones data for the next steps of our task, we create an object called `cyclones` and assign the output of either the `read.table()` or the `read.csv()` function to this object as shown below:
+
+```{r}
+#| label: read-syntax4
+
+cyclones <- read.csv(file = "data/cyclones.csv")
+```
+
+When we inspect the `cyclones` object, we get (showing first 10 rows of data):
+
+```{r}
+#| label: read-syntax-output3
+#| eval: false
+
+cyclones
+```
+
+```{r}
+#| label: read-syntax-output4
+#| echo: false
+
+head(cyclones, 10)
+```
+
+# Task 2: Describing the data structure {#sec-data-structure}
+
+## Shape of the data {#sec-shape-data}
+
+The shape of the data usually describes the structure. A "rectangular" dataset is probably the most familiar shape/structure for all of us as this is a tabular structure (rows and columns). In R, a `data.frame` is the most basic rectangular data structure. A "linear/line" dataset shape can either be a vector dataset or a list dataset in R. These "shapes" of data provide us with ideas/clues as to how to interact and use them in R.
+
+The `class()` function gives us ideas/clues as to what "shape" a dataset can be. We can apply the `class()` function to the `cyclones` object as follows:
+
+```{r}
+#| label: class-syntax1
+#| eval: false
+
+class(cyclones)
+```
+
+which gives the following output:
+
+```{r}
+#| label: class-syntax-output1
+#| echo: false
+
+class(cyclones)
+```
+
+The `cyclones` dataset is a `data.frame` object which means that it is "rectangular" or tabular in shape.
+
+## Number of records in the data {#sec-number-rows}
+
+Often we need to know how big our data is which is basically about how many records or rows of data is in our data. For this, we can use the `nrow()` function to get how many rows of data there are in a dataset as shown below:
+
+```{r}
+#| label: nrow-syntax1
+#| eval: false
+
+nrow(cyclones)
+```
+
+which gives the following output:
+
+```{r}
+#| label: nrow-syntax-output1
+#| echo: false
+
+nrow(cyclones)
+```
+
+The `nrow()` function tells us that there are `r nrow(cyclones)` rows of data in the `cyclones` dataset.
+
+## Names of variables of the data {#sec-variable-names}
+
+When working with data, it is useful to know the names of the variables of the data. In R, we can use the `names()` function to get the variable names of a dataset as follows:
+
+```{r}
+#| label: names-syntax1
+#| eval: false
+
+names(cyclones)
+```
+
+which gives the following output:
+
+```{r}
+#| label: names-syntax-output1
+#| echo: false
+
+names(cyclones)
+```
+
+The `names()` function tells us that the `cyclones` dataset has the following variables: `r names(cyclones) |> paste(collapse = ", ")`.
+
+## Number of variables (columns) in the data {#sec-number-columns}
+
+We sometimes also want to know how many variables there are in a dataset. We can use the `ncol()` function to now the number of variables (or columns) of a dataset as follows:
+
+```{r}
+#| label: ncol-syntax1
+#| eval: false
+
+ncol(cyclones)
+```
+
+which gives the following output:
+
+```{r}
+#| label: ncol-syntax-output1
+#| echo: false
+
+ncol(cyclones)
+```
+
+Another approach to getting the number of variables of a dataset is by counting the names of the variables. This can be done as follows:
+
+```{r}
+#| label: length-syntax1
+#| eval: false
+
+length(names(cyclones))
+```
+
+which gives the following output:
+
+```{r}
+#| label: length-syntax-output1
+#| echo: false
+
+length(names(cyclones))
+```
+
+We get the same output from both approaches. There are `r ncol(cyclones)` variables in the `cyclones` dataset.
+
+## Guide to indexing in R {#sec-index-methods}
+
+In order to be able to perform various analysis and apply different kinds of statistics on a dataset, we need to be able access specific values within it. There are multiple ways of doing that in R. In this solution set, we show how to use the `$` operator to access the columns of values for variables combined with the use of the indexing operator `[]` to filter or subset specific rows and/or columns of data based on what we need for specific analysis or computation. The approaches we will discuss here are for `data.frame` objects which have a rectangular or tabular shape. This shape of a `data.frame` object is an important idea to have to get a good understanding of how indexing works in R.
+
+A `data.frame` object given its rectangular or tabular shape has rows (values of which go from left to right) and has columns (values of which go from top to bottom). Hence, you can think of a `data.frame` as having some sort of coordinate system with positions of various values in the dataset being defined by its row and column within the rectangle/table. To further illustrate this, let us work with a smaller dataset shown below:
+
+```{r}
+#| label: tbl-index-data
+#| tbl-cap: Example dataset for indexing methods
+#| html-table-processing: none
+#| echo: false
+
+
+student <- c("Tumi", "Seiza", "Alaa", "Ibrahim", "Simon")
+number <- c(1, 1, 2, 3, 3)
+colour <- c("red", "red", "blue", "blue", "blue")
+
+df <- data.frame(student, number, colour)
+
+knitr::kable(df) |>
+  kableExtra::kable_styling(
+    bootstrap_options = c("striped", "bordered"),
+    full_width = FALSE
+  )
+```
+
+The dataset is a make believe dataset which has 5 records of 5 IHTM students and their favourite number between 1, 2, and 3 and their favourite colour between red and blue.
+
+Because there are just 5 records in the dataset, it is very easy for us to answer the following questions:
+
+::: {#nte-question1 .callout-note}
+
+## Which student/s has number 2 as their favourite number?
+
+To answer this question, we can just look at the column of data labelled as `number` and then go down the values of that variable and look for values that are equal to 2 (@fig-index1 step 1). Once we spot a value of 2 in `number` column, we can then look to the left towards the `student` column on the same row as where there is a value of 2 in the `number` column to find the name of the student whose favourite number from 1 to 3 is 2 (@fig-index1 step2). We find that the student is named **Alaa**. Then, back to the `number` column at the point where we found a number 2, we continue looking down until the end of the dataset to see if there are other values for `number` that are equal to 2. We find that there are no other values of `number` that are 2. So, the answer to the question is that the student named **Alaa** is the one who has a favourite number of 2.
+
+![Manual indexing example 1](images/index1.png){#fig-index1}
+
+:::
+
+::: {#nte-question2 .callout-note}
+
+## What is the favourite colour between red and blue of the student named Simon
+
+To answer this question, we can look at the column of data labelled `student` and then look from top to bottom at these values until we find a student name that is equal to Simon (@fig-index2 step 1). Once we find that, we look to the right towards the column named `colour` on the same row as where the `student` column value is Simon (@fig-index2 step 2). We see that the value `colour` for the `student` called Simon is blue. So, the answer to the question is blue.
+
+![Manual indexing example 2](images/index2.png){#fig-index2}
+
+:::
+
+The manual process described above is similar to how the indexing in R happens. We provide code to R to index the rows and/or columns of a `data.frame` to arrive at the values that we need. The general syntax for this uses the indexing operator `[]` as follows:
+
+```{r}
+#| label: index-syntax
+#| eval: false
+
+object[row, column]
+```
+
+With this syntax, we can answer **question 1** above as follows:
+
+```{r}
+#| label: index-syntax1
+#| eval: false
+
+student_data <- data.frame(
+  student = c("Tumi", "Seiza", "Alaa", "Ibrahim", "Simon"),
+  number = c(1, 1, 2, 3, 3),
+  colour = c("red", "red", "blue", "blue", "blue")
+)
+
+student_data[student_data$number == 2, "student"]
+```
+
+which gives the following output:
+
+```{r}
+#| label: index-syntax-output1
+#| echo: false
+
+student_data <- data.frame(
+  student = c("Tumi", "Seiza", "Alaa", "Ibrahim", "Simon"),
+  number = c(1, 1, 2, 3, 3),
+  colour = c("red", "red", "blue", "blue", "blue")
+)
+
+student_data[student_data$number == 2, "student"]
+```
+
+<br/>
+
+For **question 2**, we can use the following code:
+
+```{r}
+#| label: index-syntax2
+#| eval: false
+
+student_data[student_data$student == "Simon", "colour"]
+```
+
+which gives the following output:
+
+```{r}
+#| label: index-syntax-output2
+#| echo: false
+
+student_data[student_data$student == "Simon", "colour"]
+```
+
+<br/>
+
+We can apply the same approach to answer the following questions about the `cyclones` dataset.
+
+**Question 1: How many cyclones entered the Philippines in 2017?**
+
+```{r}
+#| label: index-quiz1
+
+nrow(cyclones[cyclones$year == 2017, ])
+```
+
+There were **`r nrow(cyclones[cyclones$year == 2017, ])`** cyclones that entered the Philippines in 2017.
+
+<br/>
+
+**Question 2: What is the mean cyclone speed of the cyclones that hit the Philippines in 2019?**
+
+```{r}
+#| label: index-quiz2
+
+mean(cyclones[cyclones$year == 2019, "speed"])
+```
+
+There mean cyclone speed of the cyclones that hit the Philippines in 2019 was **`r mean(cyclones[cyclones$year == 2019, "speed"])` kph**.
+
+<br/>
+
+**Question 3: What is the name of the cyclone with the lowest pressure in 2020?**
+
+```{r}
+#| label: index-quiz3
+
+cyclones2020 <- cyclones[cyclones$year == 2020, ]
+cyclones2020[cyclones2020$pressure == min(cyclones2020$pressure), "name"]
+```
+
+**`r cyclones2020[cyclones2020$pressure == min(cyclones2020$pressure), "name"]`** was the name of the cyclones with the lowest pressure in 2020.
+
+<br/>
+
+**Question 4: How many cyclones have a speed of less than 100 kph and a pressure greater than 1000?**
+
+```{r}
+#| label: index-quiz4
+
+nrow(cyclones[cyclones$speed < 100 & cyclones$pressure > 1000, ])
+```
+
+There were **`r nrow(cyclones[cyclones$speed < 100 & cyclones$pressure > 1000, ])`** cyclones with speed less than 100 and pressure greater than 1000 in the whole dataset.
+
+## Accessing the different values in a dataset {#sec-access-values}
+
+### Using `$` operator {#sec-dollar-operator}
+
+A straightforward way to access variables in a dataset object is using the `$` operator. So, to access the `speed` values in the `cyclones` dataset, we use:
+
+```{r}
+#| label: dollar-syntax1
+#| eval: false
+
+cyclones$speed
+```
+
+which gives the following output:
+
+```{r}
+#| label: dollar-syntax-output1
+#| echo: false
+
+cyclones$speed
+```
+
+### Using the index `[]` operator {#sec-index-operator}
+
+The other approach to access variables in a dataset object is using the index `[]` operator as earlier described. So, to access the `speed` values in the `cyclones` dataset, we use:
+
+```{r}
+#| label: index-values-syntax1
+#| eval: false
+
+cyclones[ , "speed"]
+```
+
+which results in the following output:
+
+```{r}
+#| label: index-values-syntax-output1
+#| echo: false
+
+cyclones[ , "speed"]
+```
+
+We can also use a numerical index for the `speed` variable. Since the `speed` variable is the 9th column in the `cyclones` dataset, we can use the following:
+
+```{r}
+#| label: index-values-syntax2
+#| eval: false
+
+cyclones[ , 9]
+```
+
+which gives the same results as using the variable name for the index:
+
+```{r}
+#| label: index-values-syntax-output2
+#| echo: false
+
+cyclones[ , 9]
+```
+
+# Task 3: Summarise and describe the dataset graphically {#sec-summary-data}
+
+## Boxplot of cyclone speed {#sec-boxplot-speed}
+
+### Basic boxplot of cyclone speed {#sec-boxplot-speed-basic}
+
+We use the `boxplot()` function to create a boxplot of the cyclone speed for the entire dataset as follows:
+
+```{r}
+#| label: plot-boxplot-syntax1
+#| eval: false
+
+boxplot(cyclones$speed)
+```
+
+which produces the following plot (@fig-boxplot-basic1):
+
+```{r}
+#| label: fig-boxplot-basic1
+#| fig-width: 5
+#| fig-cap: Boxplot of cyclone speed
+#| echo: false
+
+boxplot(cyclones$speed)
+```
+
+### Basic boxplot of cyclone speed with title and axis labels {#sec-boxplot-speed-title}
+
+We can add a title and axis labels to this plot as follows:
+
+```{r}
+#| label: plot-boxplot-syntax2
+#| eval: false
+
+boxplot(
+  x = cyclones$speed,
+  main = "Boxplot of cyclone speed", # <1>
+  ylab = "Speed in kph"              # <2>
+)
+```
+
+1. Use the `main` argument of the `boxplot()` function to set a plot title.
+
+2. Use the `ylab` argument of the `boxplot()` function to set an y-axis label.
+
+For single boxplots, an x-axis label doesn't make sense so is not specified.
+
+This produces the following plot (@fig-boxplot-basic2):
+
+```{r}
+#| label: fig-boxplot-basic2
+#| fig-width: 5
+#| fig-cap: Boxplot of cyclone speed with title and y-axis label
+#| echo: false
+
+boxplot(
+  x = cyclones$speed,
+  main = "Boxplot of cyclone speed",
+  ylab = "Speed in kph"              
+)
+```
+
+### Basic boxplot of cyclone speed with colour {#sec-boxplot-speed-colour}
+
+To add colour to a boxplot, we use the following syntax:
+
+```{r}
+#| label: plot-boxplot-syntax3
+#| eval: false
+
+boxplot(
+  x = cyclones$speed,
+  main = "Boxplot of cyclone speed",
+  ylab = "Speed in kph",
+  border = "darkblue", # <1>
+  col = "lightblue"    # <2>              
+)
+```
+
+1. Use the `border` argument in `boxplot()` function to specify outline colour for the boxplot.
+
+2. Use the `col` argument in `boxplot()` function to specify fill colour the boxplot.
+
+This produces the following plot (@fig-boxplot-basic3):
+
+```{r}
+#| label: fig-boxplot-basic3
+#| fig-width: 5
+#| fig-cap: Boxplot of cyclone speed with colours
+#| echo: false
+
+boxplot(
+  x = cyclones$speed,
+  main = "Boxplot of cyclone speed",
+  ylab = "Speed in kph",
+  border = "darkblue",
+  col = "lightblue"              
+)
+```
+
+## Boxplot of cyclone speed by year {#sec-boxplot-speed-year}
+
+### Basic boxplot of cyclone speed by year {#sec-boxplot-speed-year-basic}
+
+We use the `boxplot()` function's formula method to create boxplots of cyclone speed by year. The syntax for this is:
+
+```{r}
+#| label: plot-boxplot-formula-syntax1
+#| eval: false
+
+boxplot(
+  speed ~ year, # <1>
+  data = cyclones # <2>
+)
+```
+
+1. This is the formula method syntax for creating boxplots by a grouping variable.
+
+2. Specify the argument for `data` with the data object you are using. This is part of the overall formula method syntax.
+
+This produces the following plot (@fig-boxplot-group1)
+
+```{r}
+#| label: fig-boxplot-group1
+#| fig-cap: Boxplot of cyclone speed by year
+#| echo: false
+
+boxplot(speed ~ year, data = cyclones)
+```
+
+Noticeable is that the x and y axis labels have default values based on the names of the variables used for the plot.
+
+### Basic boxplot of cyclone speed by year with title and adjusted axis labels {#sec-boxplot-speed-year-title}
+
+We can add a title and adjust/style the x- and y-axis labels as follows:
+
+```{r}
+#| label: plot-boxplot-formula-syntax2
+#| eval: false
+
+boxplot(
+  speed ~ year,
+  data = cyclones,
+  main = "Cyclone speed by year", # <1>
+  xlab = "Year", # <2>
+  ylab = "Speed in kph" # <3>
+)
+```
+
+1. Use `main` argument in `boxplot()` function to specify a title for the plot.
+
+2. Use the `xlab` argument in `boxplot()` function to edit the x-axis label.
+
+3. Use the `ylab` argument in `boxplot()` function to edit the y-axis label.
+
+This produces the following plot (@fig-boxplot-group2):
+
+```{r}
+#| label: fig-boxplot-group2
+#| fig-cap: Boxplot of cyclone speed by year
+#| echo: false
+
+boxplot(
+  speed ~ year, 
+  data = cyclones,
+  main = "Cyclone speed by year",
+  xlab = "Year",
+  ylab = "Speed in kph"
+)
+```
+
+### Basic boxplot of cyclone speed by year with colour {#sec-boxplot-speed-year-colour}
+
+We can add colour to the boxplots of speed by year as follows:
+
+```{r}
+#| label: plot-boxplot-formula-syntax3
+#| eval: false
+
+boxplot(
+  speed ~ year,
+  data = cyclones,
+  main = "Cyclone speed by year",
+  xlab = "Year",
+  ylab = "Speed in kph",
+  border = "darkblue", # <1>
+  col = "lightblue" # <2>
+)
+```
+
+1. The `border` argument is used to change the colour of the outline of the boxplots.
+
+2. The `col` argument is used to change the fill colour of the boxplots.
+
+This produces the following plot (@fig-boxplot-group3):
+
+```{r}
+#| label: fig-boxplot-group3
+#| fig-cap: Boxplot of cyclone speed by year
+#| echo: false
+
+boxplot(
+  speed ~ year,
+  data = cyclones,
+  main = "Cyclone speed by year",
+  xlab = "Year",
+  ylab = "Speed in kph",
+  border = "darkblue",
+  col = "lightblue"
+)
+```
+
+We can add colour with each boxplot having its own colour. This can be implemented as follows:
+
+```{r}
+#| label: plot-boxplot-formula-syntax4
+#| eval: false
+
+boxplot(
+  speed ~ year,
+  data = cyclones,
+  main = "Cyclone speed by year",
+  xlab = "Year",
+  ylab = "Speed in kph",
+  border = rainbow(5), # <1>
+  col = rainbow(5) # <1>
+)
+```
+
+1. For the `border` and `col` argument, we supply a vector of five colours using the `rainbow()` function, one for each of the years.
+
+This produces the following plot (@fig-boxplot-group4):
+
+```{r}
+#| label: fig-boxplot-group4
+#| fig-cap: Boxplot of cyclone speed by year
+#| echo: false
+
+boxplot(
+  speed ~ year,
+  data = cyclones,
+  main = "Cyclone speed by year",
+  xlab = "Year",
+  ylab = "Speed in kph",
+  border = rainbow(5),
+  col = rainbow(5)
+)
+```
+
+## Histogram of cyclone pressure {#sec-hist-pressure}
+
+### Basic histogram of cyclone pressure {#sec-hist-pressure-basic}
+
+We use the `hist()` function to plot a histogram of cyclone pressure as follows:
+
+```{r}
+#| label: plot-hist-syntax1
+#| eval: false
+
+hist(cyclones$pressure)
+```
+
+This produces the following plot (@fig-hist-basic1):
+
+```{r}
+#| label: fig-hist-basic1
+#| fig-cap: Histogram of cyclone pressure
+#| echo: false
+
+hist(cyclones$pressure)
+```
+
+### Basic histogram of cyclone pressure with edited title and axis labels {#sec-hist-pressure-title}
+
+We can edit the title and the x- and y-axis labels of the histogram as follows:
+
+```{r}
+#| label: plot-hist-syntax2
+#| eval: false
+
+hist(
+  cyclones$pressure,
+  main = "Histogram of cyclone pressure", # <1>
+  xlab = "Pressure (hPa)" # <2>
+)
+```
+
+1. Use `main` argument of `hist()` function to edit the title of the plot.
+
+2. Use `xlab` argument of `hist()` function to edit the x-axis label of the plot.
+
+This produces the following plot (@fig-hist-basic2):
+
+```{r}
+#| label: fig-hist-basic2
+#| fig-cap: Histogram of cyclone pressure
+#| echo: false
+
+hist(
+  cyclones$pressure,
+  main = "Histogram of cyclone pressure",
+  xlab = "Pressure (hPa)"
+)
+```
+
+### Basic histogram of cyclone pressure with colour {#sec-hist-pressure-colour}
+
+We can change the colour of a histogram as follows:
+
+```{r}
+#| label: plot-hist-syntax3
+#| eval: false
+
+hist(
+  cyclones$pressure,
+  main = "Histogram of cyclone pressure",
+  xlab = "Pressure (hPa)",
+  border = "darkblue", # <1>
+  col = "lightblue" # <1>
+)
+```
+
+1. Use `border` and `col` argument of `hist()` function to colour the outline and the fill of the histogram respectively.
+
+This produces the following plot (@fig-hist-basic3):
+
+```{r}
+#| label: fig-hist-basic3
+#| fig-cap: Histogram of cyclone pressure
+#| echo: false
+
+hist(
+  cyclones$pressure,
+  main = "Histogram of cyclone pressure",
+  xlab = "Pressure (hPa)",
+  border = "darkblue",
+  col = "lightblue"
+)
+```
+
+### Histogram of cyclone pressure for varying cyclone speed {#sec-hist-pressure-speed}
+
+We can plot cyclone pressure by different groups of cyclone speeds. For example, the histogram of cyclone pressure for cyclone speed of less than 100 kph and the histogram of cyclone pressure for cyclone speed of greater than or equal to 100 kph can be plotted as follows:
+
+```{r}
+#| label: plot-histogram-syntax4
+#| eval: false
+
+hist(cyclones$pressure[cyclones$speed < 100])
+hist(cyclones$pressure[cyclones$speed >= 100])
+```
+
+which produces the following plots (@fig-hist-basic4; @fig-hist-basic5):
+
+```{r}
+#| label: fig-hist-basic4
+#| fig-cap: Histogram of cyclone pressure for cyclone speed < 100
+#| echo: false
+
+hist(cyclones$pressure[cyclones$speed < 100])
+```
+
+```{r}
+#| label: fig-hist-basic5
+#| fig-cap: Histogram of cyclone pressure for cyclone speed >= 100
+#| echo: false
+#| 
+hist(cyclones$pressure[cyclones$speed >= 100])
+```
+
+### Histogram of cyclone pressure for varying cyclone speed - layered plot {#sec-hist-pressure-speed-layer}
+
+The two plots for different groupings of cyclones by speed can be plotted one plot over the other to facilitate comparison. This can be done as follows:
+
+```{r}
+#| label: plot-histogram-syntax5
+#| eval: false
+
+hist(
+  cyclones$pressure[cyclones$speed < 100],     # <1>
+  border = "darkgreen",                        # <2>
+  col = "lightgreen",                          # <2>
+  main = "Histogram of cyclone pressure",
+  xlab = "Pressure in hPa",
+  xlim = c(880, 1020)                          # <3>
+)
+
+hist(
+  cyclones$pressure[cyclones$speed >= 100],    # <4>
+  border = "darkblue",                         # <5>
+  col = "lightblue",                           # <5>
+  add = TRUE                                   # <6>
+)
+
+legend(                                        # <7>
+  x = "topleft",                               # <8>
+  legend = c("Speed < 100", "Speed >= 100"),   # <9>
+  fill = c("lightgreen", "lightblue"),         # <10>
+  bty = "n",                                   # <11>
+  cex = 0.8,                                   # <12>
+  y.intersp = 0.8                              # <13>
+)
+```
+
+1. Index cyclone pressure by cyclone speed less than 100 kph.
+
+2. Set colours to the outline and fill of the histogram for cyclone pressure of cyclones with speed less than 100 kph.
+
+3. Set the x-axis range so that both plots will show appropriately.
+
+4. Index cyclone pressure by cyclone speed greater than or equal to 100 kph.
+
+5. Set colours to the outline and fill of the histogram for cyclone pressure of cyclones with speed greater than or equal to 100 kph.
+
+6. Use `add` argument of `hist()` function and set to `TRUE` so that current plot is added to the plotting window of previous plot (layered).
+
+7. Add a legend using the `legend9()` function to be able to label the plot for cyclone pressure of those cyclones with speed less than 100 kph and the plot for cyclone pressure of those cyclones with speed greater than or equal to 100 kph.
+
+8. Set the position of the legend to the top left corner of the plot.
+
+9. Add legend labels.
+
+10. Set legend colours to match plot colours.
+
+11. Remove legend box.
+
+12. Set the text size of the legend text.
+
+13. Set the amount of space in between lines of text in the legend.
+
+This produces the following plot (@fig-hist-basic6):
+
+```{r}
+#| label: fig-hist-basic6
+#| fig-cap: Histogram of cyclone pressure for varying cyclone speed
+#| echo: false
+
+hist(
+  cyclones$pressure[cyclones$speed < 100],     
+  border = "darkgreen",                        
+  col = "lightgreen",                          
+  main = "Histogram of cyclone pressure",
+  xlab = "Pressure in hPa",
+  xlim = c(880, 1020)
+)
+
+hist(
+  cyclones$pressure[cyclones$speed >= 100],    
+  border = "darkblue",                         
+  col = "lightblue",                           
+  add = TRUE                                   
+)
+
+legend(                                        
+  x = "topleft",                               
+  legend = c("Speed < 100", "Speed >= 100"),   
+  fill = c("lightgreen", "lightblue"),         
+  bty = "n",                                   
+  cex = 0.8,                                   
+  y.intersp = 0.8                              
+)
+```
+
+### Histogram of cyclone pressure for varying cyclone speed - side-by-side plot {#sec-hist-pressure-speed-side}
+
+The two plots for different groupings of cyclones by speed can be plotted one plot side-by-side with the other to facilitate comparison. This can be done as follows:
+
+```{r}
+#| label: plot-histogram-syntax6
+#| eval: false
+
+par(mfcol = c(1, 2))                           # <1>
+
+hist(                                          # <2>
+  cyclones$pressure[cyclones$speed < 100],
+  main = NULL,
+  xlab = "Speed < 100 kph",
+  ylim = c(0, 30)                              # <3>
+)
+
+hist(                                          # <4>
+  cyclones$pressure[cyclones$speed >= 100],
+  main = NULL,
+  xlab = "Speed >= 100 kph",
+  ylim = c(0, 30)                              # <3>
+)
+
+par(mfcol = c(1, 1))                           # <5>
+
+title(main = "Histogram of cyclone pressure")  # <6>
+```
+
+1. Split plotting window to two - one row and two columns format.
+
+2. Plot histogram of cyclones pressure for cyclones with speed less than 100 kph.
+
+3. Set y-axis range of values so that both plots are on the same y-axis scale for comparison.
+
+4. Plot histogram of cyclones pressure for cyclones with speed greater than or equal to 100 kph.
+
+5. Set plotting window back to 1 by 1.
+
+6. Set title to overall plot.
+
+This produces the following plot (@fig-hist-basic7):
+
+```{r}
+#| label: fig-hist-basic7
+#| fig-cap: Histogram of cyclone pressure by varying cyclone speed
+#| echo: false
+
+par(mfcol = c(1, 2))                           
+
+hist(                                          
+  cyclones$pressure[cyclones$speed < 100],
+  main = NULL,
+  xlab = "Speed < 100 kph",
+  ylim = c(0, 30)
+)
+
+hist(                                          
+  cyclones$pressure[cyclones$speed >= 100],
+  main = NULL,
+  xlab = "Speed >= 100 kph",
+  ylim = c(0, 30)
+)
+
+par(mfcol = c(1, 1))                           
+
+title(main = "Histogram of cyclone pressure")  
+```
+
+## Quantile-quantile plots of cyclone pressure and cyclone speed {#sec-qq-pressure-speed}
+
+### Quantile-quantile plot of cyclone pressure {#sec-qq-pressure}
+
+A quantile-quantile plot of cyclone pressure can be created as follows:
+
+```{r}
+#| label: plot-qq-syntax1
+#| eval: false
+
+qqnorm( # <1>
+  cyclones$pressure, 
+  main = "Quantile-Quantile plot of cyclone pressure" 
+)
+qqline(cyclones$pressure) # <2>
+```
+
+1. Produce a QQ plot of cyclone pressure.
+
+2. Create a line through a theoretical normal distribution QQ plot that passes through the probability quantities.
+
+This produces the following plot (@fig-qq-plot1):
+
+```{r}
+#| label: fig-qq-plot1
+#| fig-cap: Quantile-Quantile plot of cyclone pressure
+#| echo: false
+
+qqnorm(
+  cyclones$pressure, 
+  main = "Quantile-Quantile plot of cyclone pressure"
+)
+qqline(cyclones$pressure)
+```
+
+### Quantile-quantile plot of cyclone speed {#sec-qq-speed}
+
+A quantile-quantile plot of cyclones speed can be created as follows:
+
+```{r}
+#| label: plot-qq-syntax2
+#| eval: false
+
+qqnorm(
+  cyclones$speed), # <1>
+  main = "Quantile-Quantile plot of cyclone speed"
+)
+qqline(cyclones$speed) # <2>
+```
+
+1. Produce a QQ plot of cyclone speed.
+
+2. Create a line through a theoretical normal distribution QQ plot that passes through the probability quantities.
+
+This produces the following plot (@fig-qq-plot2):
+
+```{r}
+#| label: fig-qq-plot2
+#| fig-cap: Quantile-Quantile plot of cyclone speed
+#| echo: false
+
+qqnorm(
+  cyclones$speed,
+  main = "Quantile-Quantile plot of cyclone speed"
+)
+qqline(cyclones$speed)
+```
+
