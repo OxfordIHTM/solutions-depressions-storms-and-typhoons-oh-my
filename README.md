@@ -142,11 +142,11 @@ How many cyclones have a speed of less than 100 kph and a pressure greater than 
 
 ## Solutions
 
-A solutions script named `cyclones.R` is found in this repository. The script provides various possible solutions for each of the tasks above.
+A solutions script named [`cyclones.R`](https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/blob/main/cyclones.R) is found in this repository. The script provides various possible solutions for each of the tasks above.
 
-A solutions script named `pop_quiz.R` is found in this repository. The script provided various possible solutions for the pop quiz given on the 12th of November 2024.
+A solutions script named [`pop_quiz.R`](https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/blob/main/pop_quiz.R) is found in this repository. The script provided various possible solutions for the pop quiz given on the 12th of November 2024.
 
-The solutions can also be viewed as an HTML document that shows the code solutions alongside text that provides step-by-step explanation of what the solution is doing. The HTML document can be read here.
+The solutions can also be viewed as an HTML document that shows the code solutions alongside text that provides step-by-step explanation of what the solution is doing. The HTML document can be read [here](http://oxford-ihtm.io/solutions-depressions-storms-and-typhoons-oh-my/).
 
 <br/>
 
