@@ -1,4 +1,4 @@
-name: deploy document
+name: Quarto Publish
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-document:
+  build-deploy:
     runs-on: ubuntu-latest
     container: rocker/tidyverse:4.4.2
     env:
@@ -39,13 +39,8 @@ jobs:
           renv::restore()
         shell: Rscript {0}
         
-      - name: Render document
+      - name: Render and publish document
         run: |
-          quarto::quarto_render("cyclones.qmd")
-        shell: Rscript {0}
+          quarto publish gh-pages cyclones.qmd --no-prompt --no-browser
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs
           
