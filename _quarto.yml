@@ -14,7 +14,7 @@ format:
       margin-width: 300px
     output-file: index.html
     code-tools:
-      source: https://github.com/OxfordIHTM/solutions-depressions-storms-typhoons-oh-my/blob/main/cyclones.qmd
+      source: https://github.com/OxfordIHTM/solutions-depressions-storms-and-typhoons-oh-my/blob/main/cyclones.R
   pdf:
     documentclass: scrartcl
     papersize: a4
